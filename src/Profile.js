@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { initialResults } from "./data";
 import { useLocation } from "react-router-dom";
+import StarRating from "./components/StarRating";
+
 const Profile = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -41,7 +43,21 @@ const Profile = () => {
             </p>
             <p className="text-white mb-2">{lawyer.location}</p>
             <p className="text-white mb-2">{lawyer.lawArea}</p>
-            <p className="text-yellow-400 mb-2">Rating: {lawyer.rating}</p>
+            <div className="flex items-center mb-2">
+              <p className="text-yellow-400 mr-2">Rating:</p>
+              {[...Array(5)].map((_, index) => (
+                <svg
+                  key={index}
+                  className={`w-5 h-5 ${
+                    index < lawyer.rating ? "text-yellow-400" : "text-gray-300"
+                  }`}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049.87a1 1 0 011.902 0l1.29 3.964a1 1 0 00.95.69h4.178a1 1 0 01.592 1.806l-3.39 2.458a1 1 0 00-.364 1.118l1.29 3.964a1 1 0 01-1.54 1.118L10 12.317l-3.39 2.458a1 1 0 01-1.54-1.118l1.29-3.964a1 1 0 00-.364-1.118L2.606 7.33a1 1 0 01.592-1.806h4.178a1 1 0 00.95-.69L9.049.87z" />
+                </svg>
+              ))}
+            </div>
             <p className="text-white mb-4">{lawyer.description}</p>
           </div>
         </div>
@@ -110,9 +126,16 @@ const Profile = () => {
             <p className="text-white">
               Consultation Modes: {lawyer.consultationModes.join(", ")}
             </p>
-            <p className="text-white">
-              Consultation Fees: {lawyer.consultationFees}
-            </p>
+            <div className="text-white">
+              Consultation Types:
+              <ul className="ml-4 list-disc">
+                {lawyer.consultationTypes.map((type, index) => (
+                  <li key={index}>
+                    {type.type}: {type.price}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
           <div>
             <h2 className="text-xl font-bold text-white mb-4">
@@ -148,7 +171,23 @@ const Profile = () => {
               {lawyer.reviews.map((review, index) => (
                 <div key={index} className="bg-gray-300 p-4 rounded shadow-md">
                   <p className="text-white font-bold">{review.title}</p>
-                  <p className="text-yellow-400">Rating: {review.rating} / 5</p>
+                  <div className="flex items-center mb-2">
+                    <p className="text-yellow-400 mr-2">Rating:</p>
+                    {[...Array(5)].map((_, starIndex) => (
+                      <svg
+                        key={starIndex}
+                        className={`w-5 h-5 ${
+                          starIndex < review.rating
+                            ? "text-yellow-400"
+                            : "text-gray-300"
+                        }`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049.87a1 1 0 011.902 0l1.29 3.964a1 1 0 00.95.69h4.178a1 1 0 01.592 1.806l-3.39 2.458a1 1 0 00-.364 1.118l1.29 3.964a1 1 0 01-1.54 1.118L10 12.317l-3.39 2.458a1 1 0 01-1.54-1.118l1.29-3.964a1 1 0 00-.364-1.118L2.606 7.33a1 1 0 01.592-1.806h4.178a1 1 0 00.95-.69L9.049.87z" />
+                      </svg>
+                    ))}
+                  </div>
                   <p className="text-white">{review.reviewText}</p>
                 </div>
               ))}
@@ -157,15 +196,10 @@ const Profile = () => {
               <h2 className="text-xl font-bold text-white mb-4">
                 Add a Review
               </h2>
-              <div className="flex flex-col md:flex-row items-center mb-4">
-                <input
-                  type="number"
-                  placeholder="Rating (1-5)"
-                  className="w-full md:w-1/6 px-3 py-2 ml-2 md:ml-4 border rounded text-gray-800 bg-white"
-                  min="1"
-                  max="5"
-                  value={reviewRating}
-                  onChange={(e) => setReviewRating(parseInt(e.target.value))}
+              <div className="mb-4">
+                <StarRating
+                  rating={reviewRating}
+                  onRatingChange={setReviewRating}
                 />
               </div>
               <textarea

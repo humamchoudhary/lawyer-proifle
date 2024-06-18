@@ -27,7 +27,10 @@ export const initialResults = [
     officeAddress: "123 Main St, New York, NY",
     officeHours: "Mon-Fri 9am-5pm",
     consultationModes: ["In-person", "Online"],
-    consultationFees: "$200/hour",
+    consultationTypes: [
+      { type: "Initial Consultation", price: "$100" },
+      { type: "Follow-up Consultation", price: "$80" },
+    ],
     contactNumber: "+1 (555) 123-4567",
     socialMedia: {
       facebook: "https://facebook.com/johndoe",
@@ -76,7 +79,10 @@ export const initialResults = [
     officeAddress: "456 Elm St, Los Angeles, CA",
     officeHours: "Mon-Fri 10am-6pm",
     consultationModes: ["In-person", "Online"],
-    consultationFees: "$250/hour",
+    consultationTypes: [
+      { type: "Initial Consultation", price: "$120" },
+      { type: "Follow-up Consultation", price: "$90" },
+    ],
     contactNumber: "+1 (555) 987-6543",
     socialMedia: {
       facebook: "https://facebook.com/janesmith",
